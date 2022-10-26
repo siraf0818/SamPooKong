@@ -1,4 +1,4 @@
-name: flutter_app
+name: SamPooKong
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -73,16 +73,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Raleway
-  #     fonts:
-  #       - asset: fonts/Raleway-Regular.ttf
-  #         weight: 400
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+  fonts:
+    - family: Staatliches
+      fonts:
+        - asset: fonts/Staatliches-Regular.ttf
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
+    - family: Oxygen
+      fonts:
+        - asset: fonts/Oxygen-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
