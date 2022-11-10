@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:SamPooKong/model/tourism_place.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key});
+  final TourismPlace place;
+  const DetailScreen({Key? key, required this.place}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -9,15 +11,44 @@ class DetailScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Image.asset(
-                'images/SamPooKong.jpg',
-                fit: BoxFit.fill,
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Image.asset(
+                    place.imageAsset,
+                    fit: BoxFit.fill,
+                    height: 250,
+                    width: 412,
+                  ),
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          const FavoriteButton(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Container(
                 margin: const EdgeInsets.only(top: 16.0),
-                child: const Text(
-                  'SamPooKong',
+                child: Text(
+                  place.name,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 30.0, fontFamily: 'Staatliches'),
                 ),
@@ -26,26 +57,30 @@ class DetailScreen extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
+                  children: <Widget>[
                     Column(
-                      children: [
-                        Icon(Icons.calendar_today),
-                        SizedBox(height: 8.0),
-                        Text('Open Everyday'),
+                      children: <Widget>[
+                        const Icon(Icons.calendar_today),
+                        const SizedBox(height: 8.0),
+                        Text(place.openDays),
                       ],
                     ),
                     Column(
-                      children: [
-                        Icon(Icons.access_time),
-                        SizedBox(height: 8.0),
-                        Text('08:00 - 20:00'),
+                      children: <Widget>[
+                        const Icon(Icons.access_time),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          place.openTime,
+                        ),
                       ],
                     ),
                     Column(
-                      children: [
-                        Icon(Icons.monetization_on),
-                        SizedBox(height: 8.0),
-                        Text('Rp 7.000 - Rp 40.000'),
+                      children: <Widget>[
+                        const Icon(Icons.monetization_on),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          place.ticketPrice,
+                        ),
                       ],
                     ),
                   ],
@@ -53,53 +88,59 @@ class DetailScreen extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.all(16.0),
-                child: const Text(
-                  '''Klenteng Gedung Kuno Sam Poo Kong merupakan bekas tempat persinggahan dan pendaratan pertama seorang Laksamana Tiongkok beragama Islam yang bernama Zheng He/Cheng Ho, yang juga dikenal dengan nama Sam Poo. Tidak semua anak buah kapal beragama Islam. Kompleks Sam Poo Kong berada di daerah Simongan, sebelah barat daya Kota Semarang.''',
+                child: Text(
+                  place.description,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
+                    fontSize: 16.0,
                     fontFamily: 'Oxygen',
                   ),
                 ),
               ),
-              SizedBox(
+              Container(
                 height: 150,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    Padding(
+                  children: place.imageUrls.map((url) {
+                    return Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          'https://1.bp.blogspot.com/-CeMWK-6HID0/XVfSC6r0izI/AAAAAAAADOQ/F0Qg1k7i8lcykmaJOIhNgcdf0jFIYV4XACLcBGAs/s1600/sampookong5.png',
-                        ),
+                        child: Image.network(url),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          'https://akuratnews.com/wp-content/uploads/2019/07/Klenteng-Sam-Poo-Kong.jpg',
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          'https://1.bp.blogspot.com/-6_LqjwTV1zE/XizDAXjssuI/AAAAAAAAHgY/CisOaFE9omcRfg-rVqLuDuFTXzk3Yyw_gCLcBGAsYHQ/s640/sam%2Bpoo%2Bkong%2Bsemarang%2Basli.png',
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({Key? key}) : super(key: key);
+
+  @override
+  _FavoriteButtonState createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  @override
+  bool isFavorite = false;
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: Colors.red,
+      ),
+      onPressed: () {
+        setState(() {
+          isFavorite = !isFavorite;
+        });
+      },
     );
   }
 }

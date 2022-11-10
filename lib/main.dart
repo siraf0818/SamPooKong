@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:SamPooKong/detail_screen.dart';
+import 'package:SamPooKong/main_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -9,9 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SamPooKong',
+      title: 'Wisata Semarang',
       theme: ThemeData(),
-      home: const DetailScreen(),
+      home: const MainScreen(),
     );
   }
 }
